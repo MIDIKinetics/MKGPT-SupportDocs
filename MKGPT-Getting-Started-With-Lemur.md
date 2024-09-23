@@ -133,6 +133,13 @@ Saving to Your mobile Device:
     - Tap the cog-wheel icon at the top-right of the Lemur App.
     - Tap "Save Project"...
 
+## Importing and Exporting jzlib Files
+
+- To import a jzlib file, right-click anywhere in project canvas and select "Import".
+- To export a jzlib file, right-click on the widget and select "Export".
+
+
+
 ## Where to Go From Here
 
 Lemur is a feature-rich program with over 20 years of development. This guide was just a starting point. For more in-depth information, it’s highly recommended that you read the full Lemur User Guide, available for download on the MIDI Kinetics website. The guide includes tutorials, detailed feature explanations, and an introduction to scripting with LemurLang. Additionally, see the Lemur User Guide Addendum for a complete API reference for Lemur's powerful Canvas and Step Sequencer Widgets.
@@ -149,7 +156,7 @@ Lemur is a feature-rich program with over 20 years of development. This guide wa
 
 - **ChatGPT**:  
 
-    MIDI Kinetics has created a chatbot trained on Lemur's documentation. While not perfect, it can answer many questions and is the best place to go for help with writing code.
+    MIDI Kinetics has created a chatbot trained on Lemur's documentation. While not perfect, it can answer many questions.
 
 - **Other Music-Related Forums**:  
 
