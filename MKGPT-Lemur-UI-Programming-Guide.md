@@ -473,7 +473,7 @@ LemurLang also provides a number of functions for traversing relative hierarchie
     ```
 ## Programmatic Interface Selection
 
-- `selectinterfae(index)`
+- `selectinterface(index)`
 
     Displays the interface at `index`
 
