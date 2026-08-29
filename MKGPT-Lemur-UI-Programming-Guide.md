@@ -865,7 +865,6 @@ Text.startAnimation();
 
 ### Stroring an object in a variable erases its type
 
-
 Though it is possible to set an expression or call a script directly using dot-notation, this is only possible if you have a direct reference to an object:
 
 *OK:*
@@ -892,84 +891,19 @@ The same is true for references acquired through the hierarchy traversal methods
 decl fader = findchild(Container, 'Fader');
 fader.x = 0.5; // won't compile
 ```
-Instead, use `getattribute`, `setattribute`, `getexpresion`, and `setexpression`. These methods will attempt to get or set the value if it exists, or fail silently if they don't. 
+
+Instead, use `getattribute`, `setattribute`, `getexpresion`, `setexpression`, and `invoke`. These methods enable Duck Typing.
 
 *OK*:
 ```
 decl fader = findchild(Container, 'Fader');
-setexpression(fader, 'x', 0.5); // Fader.x = 0.5
-setexpresion(fader, 'q', 1); // Does nothing
+decl x = getexpression(fader, 'x'); // x = 0.5
+setexpression(fader, 'x', x + 0.25); // Fader.x = 0.75;
+invoke(fader, 'sendMIDI'); // Executes a script named 'sendMIDI'
+invoke1(fader, 'setColor', RGB(1, 0, 0)); // Executes a script named `setColor`, passing in red.
 ```
-
-### No Dynamic Method Dispatch
-Additionally, there is currently no way to call a script dynamically. There is no such equivalent to `setexpression` for methods.
-
-*Not Possible:*
-```
-callFunction(fader, 'myScript', args); // No such method
-```
-
-Workaround:
-
-
-If you must call a function dynamically, one workaround is to create a script that executes when a value changes. This is a sort of implemenation of a lamda object.
-
-Behavior: Display the sum of `a` and `b` in a Text widget.
-
-Project:
-- TextWidget  
-    - `onLoad()`   
-    - `a`  
-    - `b`
-    - `sum`
-    - `trigger`  
-    - `execute()`  
-
-Code:
-
-``` 
- onLoad() {
-     // Execution Mode: "On Load"
-     
-     trigger = 0;
-     a = 0;
-     b = 0;
-     sum = 0;
- }
- 
- execute() {
-    // Execution Mode: "On Expression"
-    // Expression: trigger
-    // Condition: Rising
-     
-    if (trigger == 0) return; // prevents initial trigger
-     
-    sum = a + b;
-    setattribute(Text, 'content', '' + sum);
- }
- 
-```
-Use:
-
-```
-// Find the widget dynamically
-decl textWidget = findchild(Container, 'TextWidget');
-
-// Set up the values to sum
-setexpression(textWidget, 'a', 2);
-setepression(textWidget, 'b', 3);
-
-// Increment `trigger` which causes `execute` to fire.
-setexpression(object, 'trigger', getexpression(object, 'trigger') + 1));
-
-// get the sum if you need it
-decl sum = getexpression(textWidget, 'sum');
-```
-
-If you find yourself needing this type of operation, consider the costs associated with its complex setup. LemurLang's reactive programming paradigm often makes such a workaround unnecessary. 
 
 ### No Dynamic Memory Allocation
-
 
 Finally, it is **not possible to create widgets, scripts, or expressions programmatically**. Lemur doesn't have a `new` keyword. All components of a Lemur UI must be created via the Lemur Editor.
 
