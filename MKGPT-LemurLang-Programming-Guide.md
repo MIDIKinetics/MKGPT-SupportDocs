@@ -989,7 +989,7 @@ decl x = getexpression(object, 'x');
 setexpression(object, 'x', x + 0.25);
 ```
 
-#### Scripts
+#### Scripts (Lemur 5.8 or later)
 
 Use `invoke` to execute scripts by name:
 
