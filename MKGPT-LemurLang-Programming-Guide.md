@@ -207,6 +207,10 @@ if ('Hello World') {
     // true
 }
 
+if ('') {
+   // true
+}
+
 if (0.0001) {
     // true
 }
