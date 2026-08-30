@@ -132,7 +132,7 @@ By convention, LemurLang uses lowerCamelCase:
 decl myVariable = 100;
 ```
 
-Note: Variables declared inside a script using the `decl` keyword are local to that script and exist only while the script is running. To preserve data between script executions or share it between scripts, use an Expression. See below: "Expressions - Sharing Mutable State".
+**Note:** Variables declared inside a script using the `decl` keyword are local to that script and exist only while the script is running. To preserve data between script executions or share it between scripts, use an "Expression". See below: "Expressions - Sharing Mutable State".
 
 ## Operators 
 
