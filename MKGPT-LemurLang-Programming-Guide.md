@@ -941,3 +941,81 @@ circumference(radius) = 2 * pi * radius
 ### Reactive Programming Using Expressions
 
 Scripts can be made to execute on the change of any expression, enabling reactive UIs that can update in response to a change in application state. For more information, see the Lemur UI Programming Guide.
+
+## Rules Regarding Object References
+
+Objects referenced directly by name expose their Expressions and scripts through dot notation:
+```lemurscript
+Fader.x = 0.5;
+Fader.reset();
+```
+
+An object reference can also be stored in a variable, passed to or returned from a script, placed in an array, or returned by an object-traversal function.
+```lemurscript
+decl object = Fader;
+decl arrayOfObjects = {object, object, object};
+foo(object);
+```
+
+### Object Decay
+
+Objects held in references continue to identify the original object, **however their type decays to Lemur's base Object type, and so Expressions and scripts are no longer available through dot notation:**
+```lemurscript
+decl object = Fader;
+object.x = 0.5; // Does not compile; `object` has no member named 'x'
+object.reset(); // Does not compile; `object` has no function named `reset`
+```
+
+### Dynamic Member Dispatch and Duck Typing
+
+In order to solve this, Lemur provides Duck Typing: Expressions and scripts on an Object reference are accessed dynamically by identifying their names with strings.
+
+#### Expressions
+
+Use either `getexpression` or `setexpression` to reference expressions by name:
+
+- `getexpression(object, name)`
+
+  Returns the value of Expression `name` on `object`. Returns `0` if the Expression does not exist.
+
+- `setexpression(object, name, newValue)`
+
+  Sets the value of Expression `name` on `object` to `newValue`. Fails silently if the Expression does not exist.
+
+Example:
+```lemurscript
+decl object = Fader;
+decl x = getexpression(object, 'x');
+setexpression(object, 'x', x + 0.25);
+```
+
+#### Scripts
+
+Use `invoke` to execute scripts by name:
+
+- `invoke(object, name)`
+
+  Executes script `name` on `object` without arguments and returns its result. Returns `0` if the script does not exist.
+
+`invoke` also includes variants that allow arguments, up to eight:
+
+- `invoke1(object, name, arg1)`
+- `invoke2(object, name, arg1, arg2)`
+- `invoke3(object, name, arg1, arg2, arg3)`
+- `invoke4(object, name, arg1, arg2, arg3, arg4)`
+- `invoke5(object, name, arg1, arg2, arg3, arg4, arg5)`
+- `invoke6(object, name, arg1, arg2, arg3, arg4, arg5, arg6)`
+- `invoke7(object, name, arg1, arg2, arg3, arg4, arg5, arg6, arg7)`
+- `invoke8(object, name, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8)`
+
+The script name and argument count must match exactly. Each function returns `0` when the script cannot be resolved.
+
+Example:
+```lemurscript
+decl objects = {Fader, Switches, Pads, MultiBall};
+decl i;
+
+for (i = 0; i < sizeof(objects); i++) {
+    invoke(objects[i], 'reset');
+}
+```
